@@ -49,14 +49,14 @@ int main() {
 
             for (int i = 0; i < boardHeight; i++) {
                 for (int j = 0; j < boardWidth; j++) {
-                    boardPointer[i*boardHeight + j] = &board[i*boardHeight + j];
+                    boardPointer[i*boardWidth + j] = &board[i*boardWidth + j];
                 }
             }
 
             // Initialise board with random values (0 = dead cell, 1 = alive cell)
             for (int i = 0; i < boardHeight; i++) {
                 for (int j = 0; j < boardWidth; j++) {
-                    board[i*boardHeight + j] = rand() % 2;
+                    board[i*boardWidth + j] = rand() % 2;
                 }
             }
         } else if (option == 2) {
@@ -103,7 +103,7 @@ void printBoard(int boardWidth, int boardHeight, int board[]) {
     for (int i = 0; i < boardHeight; i++) {
         for (int j = 0; j < boardWidth; j++) {
 
-            switch (board[i*boardHeight + j]) {
+            switch (board[i*boardWidth + j]) {
             case 0:
                 printf("  ");
                 break;
@@ -123,7 +123,7 @@ void boardUpdate(int boardWidth, int boardHeight, int board[], int *boardPointer
 
     for (int i = 0; i < boardHeight; i++) {
         for (int j = 0; j < boardWidth; j++) {
-            boardCopy[i*boardHeight + j] = board[i*boardHeight + j];
+            boardCopy[i*boardWidth + j] = board[i*boardWidth + j];
         }
     }
 
@@ -136,19 +136,19 @@ void boardUpdate(int boardWidth, int boardHeight, int board[], int *boardPointer
             for (int l = -1; l < 2; l++) {
                 for (int m = -1; m < 2; m++) {
                     if ((l + i >= 0 && l + i < boardHeight) && (m + j >= 0 && m + j < boardWidth)) {
-                        sum += boardCopy[((l + i)*boardHeight) + m + j];
+                        sum += boardCopy[((l + i)*boardWidth) + m + j];
                     }
                 }
             }
 
-            sum -= boardCopy[i*boardHeight + j]; // Removes count of itself as a neighbour from above
+            sum -= boardCopy[i*boardWidth + j]; // Removes count of itself as a neighbour from above
 
             if (sum < 2 || sum > 3) {
-                *boardPointer[i*boardHeight + j] = 0;
+                *boardPointer[i*boardWidth + j] = 0;
             } else if (sum == 2) {
-                *boardPointer[i*boardHeight + j] = boardCopy[i*boardHeight + j];
+                *boardPointer[i*boardWidth + j] = boardCopy[i*boardWidth + j];
             } else if (sum == 3) {
-                *boardPointer[i*boardHeight + j] = 1;
+                *boardPointer[i*boardWidth + j] = 1;
             }
         }
     }
