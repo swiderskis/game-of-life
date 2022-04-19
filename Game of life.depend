@@ -1,7 +1,0 @@
-# depslib dependency file v1.0
-1650393028 source:c:\users\reedy\documents\programming\c\projects\game of life\main.c
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<conio.h>
-
