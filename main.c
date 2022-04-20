@@ -5,11 +5,13 @@
 
 void printBoard(int boardWidth, int boardHeight, int board[]);
 void boardUpdate(int boardWidth, int boardHeight, int board[], int *boardPointer[]);
-void delay(unsigned int mseconds);
+
 int menuMain();
 int menuPreset();
 int menuQuit();
 int optionCheck(int option, int optionMin, int optionMax, char menuText[]);
+
+void delay(unsigned int mseconds);
 
 int main() {
     srand(time(NULL)); // Random seed
@@ -34,14 +36,7 @@ int main() {
         option = menuMain();
 
         if (option == 1) {
-            system("cls");
-            printf("%s", boardWidthText);
-            scanf("%d", &boardWidth);
             boardWidth = optionCheck(boardWidth, boardSizeMin, boardSizeMax, boardWidthText);
-
-            system("cls");
-            printf("%s", boardHeightText);
-            scanf("%d", &boardHeight);
             boardHeight = optionCheck(boardHeight, boardSizeMin, boardSizeMax, boardHeightText);
 
             board = realloc(board, boardWidth*boardHeight*sizeof(int));
@@ -60,6 +55,12 @@ int main() {
                 }
             }
         } else if (option == 2) {
+            FILE *preset = NULL;
+
+            option = menuPreset();
+
+            free(preset);
+
             option = 3;
         }
 
@@ -162,20 +163,58 @@ int menuMain() {
                       "2) Preset board\n"
                       "3) Quit\n";
 
-    system("cls");
-    printf("%s", menuText);
-    scanf("%d", &option);
-
     option = optionCheck(option, optionMin, optionMax, menuText);
 
     return option;
 }
 
+// Preset menu
+// Presets taken from https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 int menuPreset() {
-    //int option = 0, optionMin = 1, optionMax = 2;
-    //char menuText[] =
+    int option = 0, optionMin = 1, optionMax = 3;
+    char menuTextPreset[] = "Please choose a preset category:\n"
+                            "1) Still lifes\n"
+                            "2) Oscillators\n"
+                            "3) Spaceships\n";
 
-    //return option;
+    char menuTextStillLifes[] = "Please choose which still life to display:\n"
+                                "1) Block\n"
+                                "2) Beehive\n"
+                                "3) Loaf\n"
+                                "4) Boat\n"
+                                "5) Tub\n";
+
+    char menuTextOscillators[] = "Please choose which oscillator to display:\n"
+                                 "1) Blinker\n"
+                                 "2) Toad\n"
+                                 "3) Beacon\n"
+                                 "4) Pulsar\n"
+                                 "5) Pentadecathlon\n";
+
+    char menuTextSpaceships[] = "Please choose which spaceship to display:\n"
+                                "1) Glider\n"
+                                "2) LWSS\n"
+                                "3) MWSS\n"
+                                "4) HWSS\n";
+
+    option = optionCheck(option, optionMin, optionMax, menuTextPreset);
+
+    switch(option) {
+    case 1:
+        optionMax = 5;
+        option = 10 + optionCheck(option, optionMin, optionMax, menuTextStillLifes);
+        break;
+    case 2:
+        optionMax = 5;
+        option = 20 + optionCheck(option, optionMin, optionMax, menuTextOscillators);
+        break;
+    case 3:
+        optionMax = 4;
+        option = 30 + optionCheck(option, optionMin, optionMax, menuTextSpaceships);
+        break;
+    }
+
+    return option;
 }
 
 // Quit menu
@@ -185,10 +224,6 @@ int menuQuit() {
                       "1) Yes\n"
                       "2) No\n";
 
-    system("cls");
-    printf("%s", menuText);
-    scanf("%d", &option);
-
     option = optionCheck(option, optionMin, optionMax, menuText);
 
     return option;
@@ -196,10 +231,15 @@ int menuQuit() {
 
 // Checks if the option chosen in menus is valid
 int optionCheck (int option, int optionMin, int optionMax, char menuText[]) {
+    system("cls");
+    printf("%s", menuText);
+    scanf("%d", &option);
+
     while (option > optionMax || option < optionMin) {
         system("cls");
-        printf("ERROR: ");
+        printf("ERROR: Invalid selection\n\n");
         printf("%s", menuText);
+        scanf("%d", &option);
     }
 
     return option;
