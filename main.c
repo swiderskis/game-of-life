@@ -17,7 +17,7 @@ int main() {
     srand(time(NULL)); // Random seed
 
     int boardWidth = 5, boardHeight = 5;
-    int boardSizeMin = 5, boardSizeMax = 25;
+    static int boardSizeMin = 5, boardSizeMax = 25;
     int generation = 0;
     int option = 0;
 
@@ -59,9 +59,97 @@ int main() {
 
             option = menuPreset();
 
+            // Loads preset chosen in menuPreset and modifies board size
+            switch(option) {
+            case 11:
+                boardWidth = 6;
+                boardHeight = 6;
+                preset = fopen("stillLifes/block.txt", "r");
+                break;
+            case 12:
+                boardWidth = 6;
+                boardHeight = 5;
+                preset = fopen("stillLifes/beehive.txt", "r");
+                break;
+            case 13:
+                boardWidth = 6;
+                boardHeight = 6;
+                preset = fopen("stillLifes/loaf.txt", "r");
+                break;
+            case 14:
+                boardWidth = 5;
+                boardHeight = 5;
+                preset = fopen("stillLifes/boat.txt", "r");
+                break;
+            case 15:
+                boardWidth = 5;
+                boardHeight = 5;
+                preset = fopen("stillLifes/tub.txt", "r");
+                break;
+            case 21:
+                boardWidth = 5;
+                boardHeight = 5;
+                preset = fopen("oscillators/blinker.txt", "r");
+                break;
+            case 22:
+                boardWidth = 6;
+                boardHeight = 6;
+                preset = fopen("oscillators/toad.txt", "r");
+                break;
+            case 23:
+                boardWidth = 6;
+                boardHeight = 6;
+                preset = fopen("oscillators/beacon.txt", "r");
+                break;
+            case 24:
+                boardWidth = 19;
+                boardHeight = 19;
+                preset = fopen("oscillators/pulsar.txt", "r");
+                break;
+            case 25:
+                boardWidth = 20;
+                boardHeight = 13;
+                preset = fopen("oscillators/pentadecathlon.txt", "r");
+                break;
+            case 31:
+                boardWidth = 25;
+                boardHeight = 25;
+                preset = fopen("spaceships/glider.txt", "r");
+                break;
+            case 32:
+                boardWidth = 25;
+                boardHeight = 9;
+                preset = fopen("spaceships/lwss.txt", "r");
+                break;
+            case 33:
+                boardWidth = 25;
+                boardHeight = 11;
+                preset = fopen("spaceships/mwss.txt", "r");
+                break;
+            case 34:
+                boardWidth = 25;
+                boardHeight = 11;
+                preset = fopen("spaceships/hwss.txt", "r");
+                break;
+            }
+
+            board = realloc(board, boardWidth*boardHeight*sizeof(int));
+            boardPointer = realloc(boardPointer, boardWidth*boardHeight*sizeof(int*));
+
+            for (int i = 0; i < boardHeight; i++) {
+                for (int j = 0; j < boardWidth; j ++) {
+                    fscanf(preset, "%d", &board[i*boardWidth + j]);
+                }
+            }
+
+            for (int i = 0; i < boardHeight; i++) {
+                for (int j = 0; j < boardWidth; j++) {
+                    boardPointer[i*boardWidth + j] = &board[i*boardWidth + j];
+                }
+            }
+
             free(preset);
 
-            option = 3;
         }
 
         if (option != 3) {
