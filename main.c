@@ -1,3 +1,16 @@
+/*
+This program simulates Conway's Game of Life within the console.
+It allows the user to either generate a random board of a specified size, or select and view previews of common patterns.
+*/
+
+/*
+The rules of Conway's Game of Life are:
+1) Any live cell with 2 or 3 live neighbours survives.
+2) Any dead cell with 3 live neigbours becomes a live cell.
+3) All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+These rules are taken from https://en.wikipedia.org/wiki/Conway's_Game_of_Life#Rules.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -317,7 +330,7 @@ int menuQuit() {
     return option;
 }
 
-// Checks if the option chosen in menus is valid
+// Checks if an input made by a user is valid
 int optionCheck (int option, int optionMin, int optionMax, char menuText[]) {
     system("cls");
     printf("%s", menuText);
